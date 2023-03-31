@@ -32,14 +32,14 @@ app.get("/api/:date", function (req, res) {
     var date = new Date(req.params.date);
     res.json({
       "unix": date.getTime(),
-      "date": date.toUTCString()
+      "utc": date.toUTCString()
     });
   } else {
     var date = new Date(userDate);
 
     res.json({
       "unix": userDate,
-      "date": date.toUTCString()
+      "utc": date.toUTCString()
     });
   }
 });
