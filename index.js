@@ -29,11 +29,12 @@ app.get("/api/hello", function (req, res) {
 app.get("/api/:date?", function (req, res) {
 
   // console.log(type(new Date(req.params.date)));
-  let dateParam = req.params.date;
+  let dateParam = isNaN(Number(req.params.date)) ? req.params.date : Number(req.params.date);
   let date = new Date(dateParam);
   console.log(dateParam);
 
   if (dateParam) {
+
     if (isNaN(Number(date))) {
       res.json({
         'error': "Invalid Date"
