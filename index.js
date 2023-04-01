@@ -2,6 +2,8 @@
 // where your node app starts
 
 // init project
+require('dotenv').config();
+
 var express = require('express');
 var app = express();
 
@@ -24,26 +26,33 @@ app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
-app.get("/api/:date", function (req, res) {
+app.get("/api/:date?", function (req, res) {
 
-  var userDate = Number(req.params.date);
+  // console.log(type(new Date(req.params.date)));
+  let dateParam = req.params.date;
+  let date = new Date(dateParam);
+  console.log(dateParam);
 
-  if (Number.isNaN(userDate)){
-    var date = new Date(req.params.date);
+  if (dateParam) {
+    if (isNaN(Number(date))) {
+      res.json({
+        'error': "Invalid Date"
+      });
+    }
+
     res.json({
       "unix": date.getTime(),
-      "utc": date.toUTCString()
-    });
-  } else {
-    var date = new Date(userDate);
-
-    res.json({
-      "unix": userDate,
-      "utc": date.toUTCString()
+      "utc": date.toUTCString(),
     });
   }
-});
 
+  res.json({
+    "unix": new Date().getTime(),
+    "utc": new Date().toUTCString(),
+  })
+
+
+});
 
 // listen for requests :)
 var listener = app.listen(process.env.PORT, function () {
